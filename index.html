@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script type="text/javascript" src="https://kit.fontawesome.com/ee29299cb1.js" crossorigin="anonymous"></script>
+    <title>Edit&Delete functionality</title>
+    <style>
+        .employpage {
+            display: flex;
+            width: 1000px;
+            flex-wrap: wrap;
+            margin: auto;
+            font-family: verdana;
+            font-size: 16px;
+            border: solid 2px #f1f1f1;
+        }
+
+        .employpage .formdata {
+            width: 40%;
+            padding: 15px;
+        }
+
+        .employpage .display_table {
+            padding: 15px;
+            width: 52%;
+        }
+
+        .employpage .display_table table {
+            border: solid 1px #ccc;
+        }
+
+        .employpage .display_table td,
+        .employpage .display_table th {
+            border-left: solid 1px #ccc;
+            border-bottom: solid 1px #ccc;
+            padding: 10px 5px;
+            text-align: left;
+            font-size: 13px;
+        }
+
+        .employpage .display_table td:first-child,
+        .employpage .display_table th:first-child {
+            border-left: none;
+        }
+
+        .employpage .display_table tr {
+            border-bottom: solid 1px #ccc;
+        }
+
+        .employpage .display_table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .formdata form {
+            display: flex;
+            flex-wrap: wrap;
+            background: #f1f1f1;
+            padding: 15px;
+            transition: 3s;
+        }
+
+        .formdata form label {
+            width: 100px;
+        }
+
+        .formdata form input,
+        .formdata label {
+            margin: 10px 0;
+            padding: 5px;
+        }
+
+        .formdata form input {
+            width: 200px;
+            padding: 7px;
+        }
+
+        .formdata th {
+            background: #f1f1f1;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: left;
+        }
+
+        .formdata .button {
+            background: #000;
+            padding: 5px 10px;
+            font-size: 20px;
+            margin: 25px auto;
+            display: table;
+            color: #fff;
+        }
+
+        .pop-up {
+            display: none;
+            position: absolute;
+            top: 25px;
+            left: 750px;
+            background-color: #ccc;
+            width: 400px;
+            height: 400px;
+        }
+
+        .pop-up form {
+            display: flex;
+            flex-wrap: wrap;
+            background: #f1f1f1;
+            padding: 15px;
+            transition: 3s;
+        }
+
+        .pop-up form label {
+            width: 100px;
+        }
+
+        .pop-up form input,
+        .pop-up label {
+            margin: 10px 0;
+            padding: 5px;
+        }
+
+        .pop-up form input {
+            width: 200px;
+            padding: 7px;
+        }
+
+
+        .pop-up .button {
+            background: #000;
+            padding: 5px 10px;
+            font-size: 20px;
+            margin: 25px auto;
+            display: table;
+            color: #fff;
+        }
+
+        .button1 {
+            background: #000;
+            padding: 5px 10px;
+            font-size: 20px;
+            margin: 25px auto;
+            display: table;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="employpage">
+
+        <div class="formdata">
+            <form onsubmit="event.preventDefault();" id="formid" autocomplete="off">
+                <h1>Enter New Member</h1>
+                <label>Name</label>
+                <input type="text" class="empname" name="empname" placeholder="Employ Name">
+
+                <label>Designation</label>
+                <input type="text" class="designation" name="empdes" placeholder="Employ Designation">
+
+                <label>Mobile</label>
+                <input type="text" class="mobile" name="empmob" placeholder="Employ Mobile">
+
+                <label>Salary</label>
+                <input type="text" class="empsalary" name="empsalary" placeholder="Employ Salary">
+
+                <div style="width:100%">
+                    <input type="submit" value="Submit" class="button">
+
+                </div>
+            </form>
+        </div>
+
+        <div class="display_table">
+            <table class="list" id="employeeList">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Full Name</th>
+                        <th>Designation</th>
+                        <th>Mobile</th>
+                        <th>Salary</th>
+                        <th>Edit/Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="pop-up">
+        <form onsubmit="event.preventDefault();" id="" autocomplete="off">
+            <h1>Edit your information</h1>
+            <i class="fa-sharp fa-solid fa-xmark icon" id="icon"></i>
+            <input type="hidden" id="hid_">
+            <label>Name</label>
+            <input type="text" class="empname1" name="empname" id="name" placeholder="Employ Name">
+
+            <label>Designation</label>
+            <input type="text" class="designation1" name="empdes" id="designation" placeholder="Employ Designation">
+
+            <label>Mobile</label>
+            <input type="text" class="mobile1" name="empmob" id="mbl" placeholder="Employ Mobile">
+
+            <label>Salary</label>
+            <input type="text" class="empsalary1" name="empsalary" id="salary" placeholder="Employ Salary">
+
+            <div style="width:100%">
+                <input type="button" value="update" class="button1 update btn-update">
+            </div>
+        </form>
+    </div>
+</body>
+
+<script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+    crossorigin="anonymous"></script>
+<script>
+    var update_id = 0;
+    var count = 1;
+    $(document).ready(function () {
+        $('.button').on('click', function () {
+            var a = $('.formdata form').serializeArray();
+            var array = [];
+            $(a).each(function (i, field) {
+
+                array[field.name] = field.value;
+            });
+
+            $('tbody').append('<tr id="append_row' + count + '"><td data-id="1">' + count + ' </td> <td class="empname1"  data-id="2">' + array["empname"] + ' </td><td class="empdesi1" data-id="3">' + array["empdes"] + ' </td> <td class="mobile" data-id="4">' + array["empmob"] + ' </td> <td class="salary" data-id="5">' + array["empsalary"] + ' </td> <td data-id="6"><button class="edit" onclick="pop_up(this,' + count + ')">Edit</button><button class="del1 btn-edit" onclick="remove_func(this)">Delete</button></td></tr>')
+            count++;
+            toastr.success('Submitted', 'Your record has been submitted', { timeOut: 1000 })
+        });
+        $('#icon').click(function () {
+            $('.pop-up').css('display', 'none');
+            $('.formdata').css('display', 'flex');
+        });
+
+    });
+    //Javascript functions
+
+    //For Delete Button
+    function remove_func(_catch) {
+        $(_catch).parent().parent().remove();
+        count--;
+        toastr.success('Deleted', 'Your record has been deleted', { timeOut: 3000 })
+    }
+    //For Edit Button
+    function pop_up(pop, count12) {
+        $('.pop-up').css('display', 'flex');
+        $('.formdata').css('display', 'none');
+        $('#hid_').val(count12);
+        $('#append_row' + count12).find('td');
+        var a = $(pop).closest("tr").find('td:eq(1)').text();
+        var b = $(pop).closest("tr").find('td:eq(2)').text();
+        var c = $(pop).closest("tr").find('td:eq(3)').text();
+        var d = $(pop).closest("tr").find('td:eq(4)').text();
+        $('#name').val(a);
+        $('#designation').val(b);
+        $('#mbl').val(c);
+        $('#salary').val(d);
+    }
+    //For Update Button
+    $('.button1').on('click', function () {
+        var updated_id = $('#hid_').val();
+        var in1 = $('#name').val();
+        var in2 = $('#designation').val();
+        var in3 = $('#mbl').val();
+        var in4 = $('#salary').val();
+        $('#append_row' + updated_id).find('.empname1').html(in1);
+        $('#append_row' + updated_id).find('.empdesi1').html(in2);
+        $('#append_row' + updated_id).find('.mobile').html(in3);
+        $('#append_row' + updated_id).find('.salary').html(in4);
+        toastr.success('Updated', 'Allah Allah kr k updated', { timeOut: 3000 })
+    });
+     
+</script>
+</html>
